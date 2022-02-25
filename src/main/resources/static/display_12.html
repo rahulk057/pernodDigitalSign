@@ -1,0 +1,145 @@
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="bootstrap.min.css" >
+<link rel="stylesheet" href="fontawesome/css/all.min.css" />
+<link rel="stylesheet" href="style.css">
+</head>
+<body style="background: url('bg.jpg');background-size: contain;background-position: center;">
+	<div style="background:rgba(255,255,255,0.3);">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-12 logo-div">
+				<img src="logo.png" style="height: 80px;">
+				<div class="text-right pt-4 pr-4">
+					<button class="btn btn-danger" onclick="location.href='login.html';" style="font-size:18px;border-radius: 20px;">Logout</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container" style="margin-top:10px;">
+		<div>
+		  <p class="display-4" style="margin-bottom:30px; text-align: center;color: #1b1f23;font-family: 'Josefin Sans', sans-serif;">DISPLAY EVENT</p>
+		  <div class="row">
+			<div class="col-md-2"></div>
+			<div class="col-md-4">
+				<div class="card selected_lines pb-4">
+					<h5 class="card-header text-light bg-dark" style="margin-left:-1px;margin-right:-1px">Selected Screen</h5>
+					<div class="card-body text-dark text-center pt-5 pb-5">
+						<p>SCREEN 1 <i class="fas fa-check-circle ml-4" style="color: rgb(100, 216, 100);"></i></P>
+					</div>
+				</div>
+			</div>
+		 
+			<div class="col-md-4">
+				<div class="card selected_lines">
+					<h5 class="card-header text-light bg-dark" style="margin-left:-1px;margin-right:-1px">Event</h5>
+					<div class="card-body text-dark pt-5 pb-5">
+					
+					<!--<div class="form-group">
+							<label for="exampleInputuser1">Select Line Number</label>
+							<input list="brouse" id="linenumber" name="brouse" class="form-control" >
+							<datalist id="brouse">
+								<option value="61" >
+								<option value="62">
+								
+								
+							  </datalist>
+						</div>-->
+					
+
+						<div class="form-group">
+							<label for="exampleInputuser1">Insert Event Name</label>
+							<input type="text" id="event" name="browser" class="form-control event" >
+
+						</div>
+						<div style="display: flex;justify-content: space-between;">
+							<input type="submit" name="submit" value="Submit" class="btn btn-dark mt-4"  onclick="insertDisplay()">
+							<input type="button" value="Back" id="back" onclick="location.href='main.html'" class="btn btn-dark mt-4" >
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			</div>
+			<div class="col-md-2"></div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript" src="paho.js"></script>
+<script type="text/javascript">
+client = new Paho.MQTT.Client("192.168.1.70", Number(9001), "clientId");
+
+//set callback handlers
+client.onConnectionLost = onConnectionLost;
+client.onMessageArrived = onMessageArrived;
+
+//connect the client
+ client.connect({onSuccess:onConnect});
+		        	  function onConnect() {
+		        	  	//Once a connection has been made, make a subscription and send a message.
+		        	  	console.log("onConnect");
+		        	  	client.subscribe("#");
+		        	  	}
+function onConnectionLost(responseObject) {
+	if (responseObject.errorCode !== 0) {
+	console.log("onConnectionLost:"+responseObject.errorMessage);
+	}
+	}
+	
+function insertDisplay() {
+
+	var XHR2 = new XMLHttpRequest();
+	
+    /*var number=document.getElementById("number").value;*/
+
+	var event_name=document.getElementById("event").value;
+	
+	/*var combine=linenumber+"" +number+" "+event_name;*/
+	
+	
+	
+	var position=document.getElementById("");
+	
+
+	if(event_name==""){
+
+	alert("Please Enter ");
+	}
+	
+	else{
+		
+		var hash={"event_name":""+event_name+"","line_id":""+localStorage.getItem("line_id")+""}
+		//console.log("event_name":""+document.getElementById("number").value+event_name+"");
+		XHR2.open("POST", "/api/insertDisplayEvent");
+
+		XHR2.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+
+	XHR2.onload = function() {
+	          console.log(XHR2.responseText);
+	          var response = JSON.parse(XHR2.responseText);
+	        var urlParams = new URLSearchParams(window.location.search);
+	          if(response['message']=="Successful") {
+	        	  var hash={"line_id":localStorage.getItem("line_id")};
+	        	var  message = new Paho.MQTT.Message(JSON.stringify(hash));
+	        	  	message.destinationName = "event";
+	        	  	client.send(message);
+	               alert("Successfully Inserted");
+	             			          }
+			  else {
+
+	            alert("unSuccessful");
+	       
+	          }
+	      }
+
+
+	XHR2.send(JSON.stringify(hash));}
+	}
+function onMessageArrived(message) {
+	console.log(message.payloadString)
+	}
+</script>
+</body>
+</html>

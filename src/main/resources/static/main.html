@@ -1,0 +1,470 @@
+<!doctype html>
+<html>
+<head>
+    <title>LINE-POSITION DISPLAY</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+	<link rel="stylesheet" href="bootstrap.min.css" >
+	<link rel="stylesheet" href="fontawesome/css/all.min.css" />
+	 <link rel="stylesheet" href="style.css">
+    <style type="text/css">
+		
+		.main-box {
+			padding: 2em;
+			background: #1b1f23;
+			border-radius: 0.5em;
+			box-shadow: 0 6px 12px 0 rgba(0, 0, 0, 0.20), 0 10px 24px 0 rgba(0, 0, 0, 0.50);
+		}
+		a:link, a:visited {
+			
+			text-decoration: none;
+		}
+		@media (max-width: 700px) {
+			div {
+				margin: 0 auto;
+				width: auto;
+			}
+		}
+		/* Button used to open the contact form - fixed at the bottom of the page */
+		.open-button {
+		  background-color: #555;
+		  color: white;
+		  padding: 16px 20px;
+		  border: none;
+		  cursor: pointer;
+		  opacity: 0.8;
+		  position: fixed;
+		  bottom: 23px;
+		  right: 28px;
+		  width: 280px;
+		}
+
+		/* The popup form - hidden by default */
+		.form-popup {
+		  
+		  display: none;
+		  position: fixed;
+		  top: 15%;
+		  left: 10%;
+		  box-shadow: 0 6px 12px 0 rgba(0, 0, 0, 0.20), 0 10px 24px 0 rgba(0, 0, 0, 0.50);
+		  z-index: 9;
+		}
+		.form-popup1 {
+		  background:#1f1f1f;
+		  align-items:center;
+		  justify-content: center;
+		  display: none;
+		  position: absolute;
+		  box-shadow: 0 6px 12px 0 rgba(0, 0, 0, 0.20), 0 10px 24px 0 rgba(0, 0, 0, 0.50);
+		  border-radius:10px;
+		  z-index: 9;
+		  top:15%;
+		  right:10%;
+		  padding:15px;
+
+		}
+		.main-div{
+			position: relative;
+		}
+
+		/* Add styles to the form container */
+		.form-container {
+		  max-width: 600px;
+		  padding: 10px;
+		  background-color: #1f1f1f;
+		}
+
+		/* Full-width input fields */
+		.form-container input[type=text], .form-container input[type=password] {
+		  
+		  padding: 15px;
+		  margin: 5px 0 22px 0;
+		  border: none;
+		  background: #f1f1f1;
+		}
+
+		/* When the inputs get focus, do something */
+		.form-container input[type=text]:focus, .form-container input[type=password]:focus {
+		  background-color: #ddd;
+		  outline: none;
+		}
+
+		/* Set a style for the submit/login button */
+		.form-container .btn {
+		  background-color: #4CAF50;
+		  color: white;
+		  padding: 16px 20px;
+		  border: none;
+		  cursor: pointer;
+		  
+		  margin-bottom:10px;
+		  opacity: 0.8;
+		}
+
+		/* Add a red background color to the cancel button */
+		.form-container .cancel {
+		  background-color: red;
+		}
+
+		/* Add some hover effects to buttons */
+		.form-container  .btn:hover, .open-button:hover {
+		  opacity: 1;
+		}
+	lable{
+		color:#f3aa4e;  
+	}
+	.YARN, .IMG_VID, .EVENT, .cancel {
+	margin:10px 10px ;
+	border-radius:5px;
+	background-color:#f3aa4e;
+	width:100%;
+	
+	}
+	.form-popup1 .cancel{
+	background-color:red;
+	color: #fff;
+	transition:0.25s;
+	}
+	.form-popup1 .cancel:hover{
+	opacity:1;
+	color: #fff;
+	}
+	#backbg{
+		height:100%;
+		width:100%;
+		background:rgba(0,0,0,0.2);
+		position:absolute;
+		top:0;
+		left:0;
+		z-index:1;
+		display:none;
+	}
+    </style>    
+</head>
+
+<body style="background: url('bg.jpg');background-size: contain;background-position: center;">
+<div style="background:rgba(255,255,255,0.3);">
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-sm-12 logo-div">
+			<img src="logo.png" style="height: 80px;">
+			<div class="text-right pt-4 pr-4">
+				<button class="btn btn-danger" onclick="location.href='login.html';" style="font-size:18px;border-radius: 20px;">Logout</button>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="SLIDE_BG"></div>
+	<div class="container main-div">
+		<div class="row">
+			<div class="col-md-3"></div>
+			<div class="col-md-6">
+				<div class="main-box">
+					<div class="device1 button" id="button-2"  onclick="openMenu()">
+						<div id="slide"></div>
+						<a href="#">ALL SCREEN</a>
+					</div>
+					<div class="device2 button" id="button-2" onclick="openMenu1()">
+						<div id="slide"></div>
+						<a href="#">SCREEN 1</a>
+					</div>
+					<div class="device2 button" id="button-2" onclick="openMenu2()">
+						<div id="slide"></div>
+						<a href="#">SCREEN 2</a>
+					</div>
+					<div class="device2 button" id="button-2" onclick="openMenu3()">
+						<div id="slide"></div>
+						<a href="#">SCREEN 3</a>
+					</div>
+					<div class="device2 button" id="button-2" onclick="openMenu4()">
+						<div id="slide"></div>
+						<a href="#">SCREEN 4</a>
+					</div>
+
+					<div class="device2 button" id="button-2" onclick="openMenu5()">
+						<div id="slide"></div>
+						<a href="#">SCREEN 5</a>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3"></div>
+		</div>
+	</div>
+
+
+<div id="backbg" onclick="hidediv()"></div>
+
+<div class="form-popup1" id="menu" >
+	
+	<div class="container-fluid">
+	<!--	<div class="row">
+			<button class="btn YARN" onclick="allLines()">YARN DROPPING</button>
+		</div>-->
+		<div class="row">
+			<button class="btn IMG_VID" onclick="allLines1()">DISPLAY IMAGES / VIDEOS</button>
+		</div>
+		<div class="row">
+			<button class="btn EVENT" onclick="allLines2()">DISPLAY EVENT</button> 
+		</div>
+		<div class="row">
+			<button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+		</div>
+	</div>
+</div>
+
+<div class="form-popup1" id="menu1" >
+	<div class="container-fluid">
+		<!--<div class="row">
+			<button class="btn YARN" onclick="line6162()">YARN DROPPING</button>
+		</div>-->
+		<div class="row">
+			<button class="btn IMG_VID" onclick="line61621()">DISPLAY IMAGES / VIDEOS</button>
+		</div>
+		 <div class="row">
+			<button class="btn EVENT" onclick="line61622()">DISPLAY EVENT</button> 
+		</div> 
+		<div class="row">
+			<button type="button" class="btn cancel" onclick="closeForm1()">Close</button>
+		</div>
+	</div>
+</div>
+
+<div class="form-popup1" id="menu2" >
+	<div class="container-fluid">
+		<!--<div class="row">
+			<button class="btn YARN" onclick="line6364()">YARN DROPPING</button>
+		</div>-->
+		<div class="row">
+			<button class="btn IMG_VID" onclick="line63641()">DISPLAY IMAGES / VIDEOS</button>
+		</div>
+		 <div class="row">
+			<button class="btn EVENT" onclick="line63642()">DISPLAY EVENT</button> 
+		</div> 
+		<div class="row">
+			<button type="button" class="btn cancel" onclick="closeForm2()">Close</button>
+		</div>
+	</div>
+</div>
+
+<div class="form-popup1" id="menu3" >
+	<div class="container-fluid">
+		<!--<div class="row">
+			<button class="btn YARN" onclick="line6566()">YARN DROPPING</button>
+		</div>-->
+		<div class="row">
+			<button class="btn IMG_VID" onclick="line65661()">DISPLAY IMAGES / VIDEOS</button>
+		</div>
+		<div class="row">
+			<button class="btn EVENT"onclick="line65662()" >DISPLAY EVENT</button> 
+		</div> 
+		<div class="row">
+			<button type="button" class="btn cancel" onclick="closeForm3()">Close</button>
+		</div>
+	</div>
+</div>
+
+<div class="form-popup1" id="menu4" >
+	<div class="container-fluid">
+		<!--<div class="row">
+			<button class="btn YARN" onclick="line6768()">YARN DROPPING</button>
+		</div>-->
+		<div class="row">
+			<button class="btn IMG_VID" onclick="line67681()">DISPLAY IMAGES / VIDEOS</button>
+		</div>
+		<div class="row">
+			<button class="btn EVENT" onclick="line67682()">DISPLAY EVENT</button> 
+		</div> 
+		<div class="row">
+			<button type="button" class="btn cancel" onclick="closeForm4()">Close</button>
+		</div>
+	</div>
+</div>
+
+	<div class="form-popup1" id="menu5" >
+		<div class="container-fluid">
+			<div class="row">
+				<button class="btn IMG_VID" onclick="line9101()">DISPLAY IMAGES / VIDEOS</button>
+			</div>
+			<div class="row">
+				<button class="btn EVENT" onclick="line9102()">DISPLAY EVENT</button>
+			</div>
+			<div class="row">
+				<button type="button" class="btn cancel" onclick="closeForm4()">Close</button>
+			</div>
+		</div>
+	</div>
+
+
+</div>
+<script>
+function hidediv(){
+	document.getElementById("backbg").style.display = "none";
+	document.getElementById("menu").style.display = "none";
+	document.getElementById("menu1").style.display = "none";
+	document.getElementById("menu2").style.display = "none";
+	document.getElementById("menu3").style.display = "none";
+	document.getElementById("menu4").style.display = "none";
+}
+	function openMenu() {
+		document.getElementById("menu").style.display = "flex";
+		document.getElementById("backbg").style.display = "block";
+	}
+	function closeForm() {
+		document.getElementById("menu").style.display = "none";
+		document.getElementById("backbg").style.display = "none";
+	}
+	function openMenu1() {
+		document.getElementById("menu1").style.display = "block";
+		document.getElementById("backbg").style.display = "block";
+	}
+	function closeForm1() {
+		document.getElementById("menu1").style.display = "none";
+		document.getElementById("backbg").style.display = "none";
+	}
+	function openMenu2() {
+		document.getElementById("menu2").style.display = "block";
+		document.getElementById("backbg").style.display = "block";
+	}
+	function closeForm2() {
+		document.getElementById("menu2").style.display = "none";
+		document.getElementById("backbg").style.display = "none";
+	}
+	function openMenu3() {
+		document.getElementById("menu3").style.display = "block";
+		document.getElementById("backbg").style.display = "block";
+	}
+	function closeForm3() {
+		document.getElementById("menu3").style.display = "none";
+		document.getElementById("backbg").style.display = "none";
+	}
+	function openMenu4() {
+		document.getElementById("menu4").style.display = "block";
+		document.getElementById("backbg").style.display = "block";
+	}
+	function closeForm4() {
+		document.getElementById("menu4").style.display = "none";
+		document.getElementById("backbg").style.display = "none";
+	}
+
+function openMenu5() {
+	document.getElementById("menu5").style.display = "block";
+	document.getElementById("backbg").style.display = "block";
+}
+function closeForm5() {
+	document.getElementById("menu5").style.display = "none";
+	document.getElementById("backbg").style.display = "none";
+}
+	
+	function allLines(){
+		localStorage.setItem("line_id",1);
+		window.location.href="yarn_allLines.html";
+	}
+	
+	function allLines1(){
+		localStorage.removeItem("line_id");
+		localStorage.setItem("line_id",1);
+		window.location.href="display_image_video.html";
+	}
+	function allLines2(){
+		localStorage.setItem("line_id",1);
+		window.location.href="display_allLines.html";
+	}
+function line6162(){
+		
+		localStorage.setItem("line_id",2);
+		window.location.href="yarn_l12.html";
+		
+	}
+	
+function line61621(){
+	localStorage.removeItem("line_id");
+	localStorage.setItem("line_id",2);
+	window.location.href="display_image_video.html";
+	
+}
+function line61622(){
+	localStorage.setItem("line_id",2);
+	window.location.href="display_12.html";
+}
+
+
+function line6364(){
+	
+	localStorage.setItem("line_id",3);
+	window.location.href="yarn_l34.html";
+
+	
+}
+function line63641(){
+	localStorage.removeItem("line_id");
+	localStorage.setItem("line_id",3);
+	window.location.href="display_image_video.html";
+	
+}
+function line63642(){
+	
+	localStorage.setItem("line_id",3);
+	window.location.href="display_34.html";
+
+	
+}
+function line6566(){
+	
+	localStorage.setItem("line_id",4);
+	window.location.href="yarn_l56.html";
+}
+function line65661(){
+	localStorage.removeItem("line_id");
+	localStorage.setItem("line_id",4);
+	window.location.href="display_image_video.html";
+	
+}
+function line65662(){
+	
+	localStorage.setItem("line_id",4);
+	window.location.href="display_56.html";
+}
+function line6768(){
+	
+	localStorage.setItem("line_id",5);
+	window.location.href="yarn_l78.html";
+}
+
+function line67681(){
+	localStorage.removeItem("line_id");
+	localStorage.setItem("line_id",5);
+	window.location.href="display_image_video.html";
+	
+}
+function line67682(){
+	
+	localStorage.setItem("line_id",5);
+	window.location.href="display_78.html";
+}
+
+<!--------------------Last Screen----->
+function line910(){
+
+	localStorage.setItem("line_id",6);
+	window.location.href="yarn_l78.html";
+}
+
+function line9101(){
+	localStorage.removeItem("line_id");
+	localStorage.setItem("line_id",6);
+	window.location.href="display_image_video.html";
+
+}
+function line9102(){
+
+	localStorage.setItem("line_id",6);
+	window.location.href="display_910.html";
+}
+
+</script>
+
+</body>
+</html>

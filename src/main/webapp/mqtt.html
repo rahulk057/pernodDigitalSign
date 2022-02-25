@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<script type="text/javascript" src="paho.js"></script>
+<script type="text/javascript">
+client = new Paho.MQTT.Client("localhost", Number(9001), "clientId");
+
+//set callback handlers
+client.onConnectionLost = onConnectionLost;
+client.onMessageArrived = onMessageArrived;
+
+//connect the client
+client.connect({onSuccess:onConnect});
+
+function sleep(ms) {
+	  return new Promise(resolve => setTimeout(resolve, ms));
+	}
+//called when the client connects
+async function onConnect() {
+//Once a connection has been made, make a subscription and send a message.
+console.log("onConnect");
+client.subscribe("#");
+var randomNo=Math.floor(Math.random() * 10);
+message = new Paho.MQTT.Message(randomNo.toString());
+message.destinationName = "node4";
+client.send(message);
+
+}
+
+function onConnectionLost(responseObject) {
+if (responseObject.errorCode !== 0) {
+console.log("onConnectionLost:"+responseObject.errorMessage);
+}
+}
+function onMessageArrived(message) {
+	console.log(message.payloadString)
+	}
+
+
+//called when a message arrives
+
+
+
+	function onMessageArrived(message) {
+		console.log(message.payloadString)
+		}
+
+</script>
+</body>
+</html>

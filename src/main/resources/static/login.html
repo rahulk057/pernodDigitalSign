@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>login</title>
+    <link rel="stylesheet" href="bootstrap.min.css" >
+<link rel="stylesheet" href="fontawesome/css/all.min.css" /><link rel="stylesheet" href="style.css">
+    <style>
+        .jumbotron{
+        box-shadow: 0 6px 12px 0 rgba(0, 0, 0, 0.20), 0 10px 24px 0 rgba(0, 0, 0, 0.50);
+        background-color: #1b1f23;
+    }
+    .modal-content{
+      background-color: #d1eca5;
+    }
+
+    </style>
+    
+</head>
+<body style="background: url('bg.jpg');background-size: contain;background-position: center;">
+  <div style="background:rgba(255,255,255,0.3);">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-12 logo-div">
+        <img src="logo.png" style="height: 80px;">
+      </div>
+    </div>
+  </div>
+
+<div class="container" style="margin-top:30px;">
+    <div>
+      <p class="display-4" style="margin-bottom:30px; text-align: center;color: #1b1f23;font-family: 'Josefin Sans', sans-serif;">SignIn</p>
+      <div class="row">
+        <div class="col-md-4"></div>
+     
+          <div class="col-md-4 jumbotron">
+          <div class="form-group">
+            <label for="exampleInputuser1"></label>
+            <input type="text" class="form-control" id="username" placeholder="Enter Username">
+           
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1"></label>
+            <input type="password" class="form-control" id="password" placeholder="Enter Password"
+              name="password" required>
+          </div>
+          <input type="submit" name="submit" value="login" class="btn btn-outline-dark mt-4" data-toggle="modal" data-target="#exampleModalCenter" onclick="getLoginData()">
+        </div>
+        
+        </div>
+      </div>
+    </div></div>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+<script>
+	function getLoginData(){
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+		    if (this.readyState == 4 && this.status == 200) {
+		       // Typical action to be performed when the document is ready:
+		        var response = xhttp.responseText;
+		  
+		       
+		    var result=JSON.parse(response);
+		    console.log(result.message);
+		    
+		      if(result.message=="login") {
+		          
+		    	  sendata();
+		           
+		         			          }
+			  else {
+
+		        alert("Please Enter valid username/password");
+		   
+		      } 
+		    }
+		};
+		 var username=document.getElementById("username").value;
+		 var password=document.getElementById("password").value;
+		console.log(username)
+		
+		xhttp.open("GET", "/api/getLogin?username="+username+"&password="+password, true);
+
+		xhttp.send();
+		}
+	function sendata(){
+		
+		
+		window.location.href ="main.html"
+
+	}
+	
+</script>
+
+</body>
+</html>

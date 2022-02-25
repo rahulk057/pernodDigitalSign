@@ -1,0 +1,262 @@
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="bootstrap.min.css" >
+<link rel="stylesheet" href="fontawesome/css/all.min.css" />
+<link rel="stylesheet" href="style.css">
+</head>
+<body style="background: url('back.jpg');background-size: contain;background-position: center;">
+	<div style="background:rgba(255,255,255,0.3);">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-12 logo-div">
+				<img src="logo2.png" style="height: 80px;">
+				<div class="text-right pt-4 pr-4">
+					<button class="btn btn-danger" onclick="location.href='login.html';" style="font-size:18px;border-radius: 20px;">Logout</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container" style="margin-top:70px;">
+		<div>
+		  <p class="display-4" style="margin-bottom:30px; text-align: center;color: #1b1f23;font-family: 'Josefin Sans', sans-serif;">Yarn Dropping</p>
+		  <div class="row">
+			<div class="col-md-2"></div>
+			<div class="col-md-4">
+				<div class="card selected_lines pb-4">
+					<h5 class="card-header text-light bg-dark" style="margin-left:-1px;margin-right:-1px">Selected Lines</h5>
+					<div class="card-body text-dark text-center pt-5 pb-5">
+						<p>LINE 61 & 62 <i class="fas fa-check-circle ml-4" style="color: rgb(100, 216, 100);"></i></P>
+					</div>
+				</div>
+			</div>
+		 
+			<div class="col-md-4">
+				<div class="card selected_lines">
+					<h5 class="card-header text-light bg-dark" style="margin-left:-1px;margin-right:-1px">Position</h5>
+					<div class="card-body text-dark text-center pt-5 pb-5">
+						<div class="form-group">
+							<label for="exampleInputuser1"></label>
+							<input type="number" class="form-control" id="current" placeholder="Enter current position">
+						
+						</div>
+						<div class="form-group">
+							<label for="exampleInputPassword1"></label>
+							<input type="number" class="form-control" id="next" placeholder="Enter next position"
+							name="password" required>
+						</div>
+							<div class="form-group">
+							<label for="exampleInputuser1"></label>
+							<input list="timeList" id="time" name="timeList" class="form-control event" placeholder="Select Time">
+							<datalist id="timeList">
+								<option value="1" >
+								<option value="2">
+								<option value="3">
+								<option value="4">
+								<option value="5">
+								 <option value="6">
+								 <option value="7">
+								 <option value="8">
+								 <option value="9">
+								 <option value="10">
+								 
+							  </datalist>
+						</div>
+						<div class="form-group">
+							<label for="exampleInputuser1"></label>
+							<input list="hooterList" id="timer" name="hooterList" class="form-control event" placeholder="Select Hooter Time">
+							<datalist id="hooterList">
+								<option value="1" >
+								<option value="2">
+								<option value="3">
+								<option value="4">
+								<option value="5">
+								 <option value="6">
+								 <option value="7">
+								 <option value="8">
+								 <option value="9">
+								 <option value="10">
+								 
+							  </datalist>
+						</div>
+						<div style="display: flex;justify-content: space-between;">
+							<input type="submit" name="submit" value="Submit" class="btn btn-dark mt-4"  onclick="insertYarn1()">
+							<input type="button" value="Back" id="back" onclick="location.href='main.html'" class="btn btn-dark mt-4" >
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			</div>
+			<div class="col-md-2"></div>
+		</div>
+	</div>
+	</div>
+<!-- <div>
+<h1>YARN DROPPING</h1>
+<h2>SELECTED LINE</h2>
+<h3>CURRENT POSITION</h3>
+<input type="number" id="current" placeholder="current">
+<h3 class="a">NEXT POSITION</h3>
+
+<input type="number" id="next" placeholder="next"style="margin-top:78px">
+<div class="selected_lines">
+ <p>LINE 61 & 62</P>
+</div>
+ <input type="submit" value="Submit" onclick="insertYarn1()">
+ <input type="button" value="Back" id="back" onclick="location.href='main.html'">
+</div> -->
+<script type="text/javascript" src="paho.js"></script>
+<script>
+client = new Paho.MQTT.Client("localhost", Number(9001), "clientId");
+
+//set callback handlers
+client.onConnectionLost = onConnectionLost;
+client.onMessageArrived = onMessageArrived;
+
+//connect the client
+ client.connect({onSuccess:onConnect});
+		        	  function onConnect() {
+		        	  	//Once a connection has been made, make a subscription and send a message.
+		        	  	console.log("onConnect");
+		        	  	client.subscribe("#");
+		        	  	}
+function onConnectionLost(responseObject) {
+	if (responseObject.errorCode !== 0) {
+	console.log("onConnectionLost:"+responseObject.errorMessage);
+	}
+	}
+	
+	
+console.log(localStorage.getItem("line_id"))
+var arr=[];
+	 function getYarnData(){
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+		    if (this.readyState == 4 && this.status == 200) {
+		       // Typical action to be performed when the document is ready:
+		        var response = xhttp.responseText;
+		    var result=JSON.parse(response);	    	 
+		    if(result.yarn.length==0){
+			  	  document.getElementById("next").readOnly = true;
+			  	  
+			  		}	
+			  	 else{
+			  			document.getElementById("current").readOnly=true;
+			  			document.getElementById("next").readOnly = false;
+			  		} 
+		    document.getElementById("current").value=result.yarn[0].current_position; 
+		   
+		    arr.push(result.yarn[0].current_position);
+		    }
+		};
+		xhttp.open("GET", "api/getYarnData?line_id="+localStorage.getItem("line_id"), true);
+
+		xhttp.send();
+		
+		
+		}
+	window.onload=getYarnData(); 
+	
+	
+	
+	
+function insertYarn1(){
+	
+	var XHR2 = new XMLHttpRequest();
+	var position;
+	var time =document.getElementById("time").value;
+	if(document.getElementById("current").value==""){
+		alert("Please Enter Current Position")
+	}
+	else if(document.getElementById("next").value==""){
+		alert("Please Enter Next Position")
+	}
+	else if(document.getElementById("time").value==""){
+		alert("Please Select Time")
+	}
+	else if(document.getElementById("timer").value==""){
+		alert("Please Select HooterTime")
+	}
+	else if(arr.length==0){
+			var hash={"current_position":""+document.getElementById("current").value+"","line_id":""+localStorage.getItem("line_id")+"","time":""+time+"",}
+			
+			XHR2.open("POST", "/api/insertYarn");
+
+			XHR2.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+
+		XHR2.onload = function() {
+		          //console.log(XHR2.responseText);
+		          var response = JSON.parse(XHR2.responseText);
+		        var urlParams = new URLSearchParams(window.location.search);
+		          if(response['message']=="Successful") {
+		               
+		        	  getYarnData();
+	              alert("Successfully Inserted");
+
+		   			
+		          }
+		         
+				  else {
+
+		            alert("unSuccessful");
+	                document.getElementById("current").value="";
+	                
+		          }
+		      }
+
+
+		XHR2.send(JSON.stringify(hash));
+	}else if(arr.length>0){
+var hash={"current_position":""+document.getElementById("next").value+"","line_id":""+localStorage.getItem("line_id")+"","time":""+time+"",}
+		
+		XHR2.open("POST", "/api/insertYarn");
+
+		XHR2.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+
+	XHR2.onload = function() {
+	          //console.log(XHR2.responseText);
+	          var response = JSON.parse(XHR2.responseText);
+	        var urlParams = new URLSearchParams(window.location.search);
+	          if(response['message']=="Successful") {
+	        	  var hash={"line_id":localStorage.getItem("line_id")};
+	        	  message = new Paho.MQTT.Message(JSON.stringify(hash));
+	        	  	message.destinationName = "position";
+	        	  	client.send(message);
+	        	  	var timer=document.getElementById("timer").value;
+	        	  	var messageT = new Paho.MQTT.Message(timer);
+	        	  	messageT.destinationName = "timer";
+	        	  	client.send(messageT);
+	        	  	var message1 = new Paho.MQTT.Message(localStorage.getItem("line_id"));
+	        	  	message1.destinationName = "node";
+	        	  	client.send(message1);
+	        	  getYarnData();
+              alert("Successfully Inserted");
+
+	   			
+	          }
+	         
+			  else {
+
+	            alert("unSuccessful");
+                document.getElementById("current").value="";
+                
+	          }
+	      }
+
+
+	XHR2.send(JSON.stringify(hash));
+	}
+
+		
+	}
+function onMessageArrived(message) {
+	console.log(message.payloadString)
+	}
+	
+</script>
+
+</body>
+</html>	
